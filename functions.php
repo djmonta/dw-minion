@@ -107,3 +107,26 @@ function alx_plugins() {
 	tgmpa( $plugins );
 }
 add_action( 'tgmpa_register', 'alx_plugins' );
+
+/**
+ * hentry クラスを除くフィルタ
+ * added by monta 2014.09.19
+ */
+function remove_hentry( $classes ) {
+ 
+	$classes = array_diff($classes, array('hentry'));	
+	return $classes;
+}
+
+/*
+ * JS, CSS からバージョン番号を非表示にする
+ * http://kwski.net/wordpress/1058/
+ */
+// remove wp version param from any enqueued scripts
+function vc_remove_wp_ver_css_js( $src ) {
+    if ( strpos( $src, 'ver=' ) )
+        $src = remove_query_arg( 'ver', $src );
+    return $src;
+}
+add_filter( 'style_loader_src', 'vc_remove_wp_ver_css_js', 9999 );
+add_filter( 'script_loader_src', 'vc_remove_wp_ver_css_js', 9999 );
