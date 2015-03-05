@@ -130,3 +130,17 @@ function vc_remove_wp_ver_css_js( $src ) {
 }
 add_filter( 'style_loader_src', 'vc_remove_wp_ver_css_js', 9999 );
 add_filter( 'script_loader_src', 'vc_remove_wp_ver_css_js', 9999 );
+
+/*
+ * アイキャッチに登録した画像をRSSにも含める。
+ * http://kachibito.net/wp-code/show-post-thumbnails-in-feeds
+ */
+function post_thumbnail_in_feeds($content) {
+	global $post;
+	if(has_post_thumbnail($post->ID)) {
+		$content = '<div>' . get_the_post_thumbnail($post->ID) . '</div>' . $content;
+	}
+	return $content;
+}
+add_filter('the_excerpt_rss', 'post_thumbnail_in_feeds');
+add_filter('the_content_feed', 'post_thumbnail_in_feeds');
