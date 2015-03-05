@@ -8,6 +8,10 @@ if ( !function_exists( 'dw_minion_setup' ) ) {
 		add_theme_support( 'automatic-feed-links' );
 		add_theme_support( 'post-formats', array( 'gallery', 'video', 'quote', 'link' ) );
 		add_theme_support( 'post-thumbnails' );
+
+		// Added by monta
+		add_theme_support( 'title-tag' );
+		
 		add_editor_style();
 	}
 }
