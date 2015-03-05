@@ -162,3 +162,35 @@ function dw_minion_related_post($post_id) {
 
 <?php wp_reset_query(); ?>
 <?php }
+
+/*
+ * Breadcrumb
+ */
+if ( ! function_exists( 'dw_minion_breadcrumb' ) ) :
+function dw_minion_breadcrumb() {
+	echo '<div class="breadcrumb">';
+	echo '    <div itemscope itemtype="http://data-vocabulary.org/Breadcrumb">';
+	$home_link = 'Home';
+	printf( __( '<a href="%1$s" itemprop="url"><span itemprop="title">%2$s</span></a> &gt; ', 'dw-minion' ),
+			esc_url( home_url() ),
+			__( 'Home', 'dw-minion' )
+		);
+	echo '</div>';
+	$postcat = get_the_category();
+	$catid = $postcat[0]->cat_ID;
+	$allcats = array($catid);
+	while(!$catid==0) {
+		$mycat = get_category($catid);
+		$catid = $mycat->parent;
+		array_push($allcats, $catid);
+	}
+	array_pop($allcats);
+	$allcats = array_reverse($allcats);
+	foreach($allcats as $catid): ?>
+		<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb"> <a href="<?php echo get_category_link($catid); ?>" itemprop="url">
+			<span itemprop="title"><?php echo get_cat_name($catid); ?></span></a> &gt; 
+		</div>
+	<?php endforeach;
+	echo '</div>';
+}
+endif;
