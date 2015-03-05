@@ -118,6 +118,21 @@ function remove_hentry( $classes ) {
 	return $classes;
 }
 
+ 
+/** autopagerize 対応
+ *  added by monta 2015.3.5
+ */
+function custom_next_posts_link_attributes($args = null) {
+	return 'rel="next"';
+}
+function custom_previous_posts_link_attributes($args = null) {
+	return 'rel="previous"';
+}
+ 
+add_filter('next_posts_link_attributes', 'custom_next_posts_link_attributes');
+add_filter('previous_posts_link_attributes', 'custom_previous_posts_link_attributes');
+
+
 /*
  * JS, CSS からバージョン番号を非表示にする
  * http://kwski.net/wordpress/1058/
